@@ -30,3 +30,8 @@ jobs:
                             issue_number: issueNumber,
                             body: commentBody,
                         });
+            - name: "Echo issue context"
+              env:
+                EVENT_CONTEXT: ${{ toJSON(github.event) }}
+              run: |
+                echo $EVENT_CONTEXT
