@@ -1,0 +1,31 @@
+name: "Add Guide to New Issue"
+
+on:
+    issues:
+        types: [opened]
+
+jobs:
+    add-guide:
+        runs-on: ubuntu-latest
+        steps:
+            - name: "Add guide comment"
+              uses: actions/github-script@v6
+              with:
+                    script: |
+                        const issueNumber = context.payload.issue.number;
+                        const commentBody = `
+                        Thank you for opening this issue! Please make sure to follow our guidelines:
+                        
+                        1. Provide a clear and descriptive title.
+                        2. Include steps to reproduce the issue.
+                        3. Mention the expected and actual behavior.
+                        4. Attach any relevant screenshots or logs.
+                        
+                        Our team will review your issue shortly. 😊
+                        `;
+                        await github.rest.issues.createComment({
+                            owner: context.repo.owner,
+                            repo: context.repo.repo,
+                            issue_number: issueNumber,
+                            body: commentBody,
+                        });
